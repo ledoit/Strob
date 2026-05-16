@@ -1,0 +1,40 @@
+# Strob
+
+Live-synced mood light sessions — a [moodlight.org](https://www.moodlight.org)-inspired strobe with a **controller** (one device) and **viewers** (many devices) joined by a 4-character session code.
+
+## Stack
+
+- **Next.js** (App Router) — UI on Vercel
+- **PartyKit** — WebSocket rooms per session code
+- **Timestamp-anchored sync** — viewers derive the current color locally; controller only sends state patches
+
+## Develop
+
+```bash
+pnpm install
+pnpm dev
+```
+
+Runs Next.js on port 3000 and PartyKit on port 1999.
+
+Open [http://localhost:3000](http://localhost:3000), create a session, copy the viewer link, and open it in another tab or phone on the same network.
+
+## Deploy
+
+1. **PartyKit** — `pnpm party:deploy` and note your host (e.g. `strob-party.username.partykit.dev`).
+2. **Vercel** — import `git@github.com:ledoit/Strob.git`, preset **Next.js** (default). Build: `pnpm build`, install: `pnpm install`. Set env `NEXT_PUBLIC_PARTYKIT_HOST` to your PartyKit host (no `https://`).
+3. Redeploy the frontend after PartyKit is live.
+
+Vercel CLI (for agents / CI later): `vercel link` then `vercel deploy` / `vercel deploy --prod` once logged in (`vercel login`).
+
+## Supabase (later)
+
+Realtime channels keyed by session code can replace PartyKit if you want Postgres-backed sessions, rate limits, or history. The shared `SessionState` shape in `src/lib/session-state.ts` is transport-agnostic.
+
+## Defaults
+
+Default palette matches moodlight.org’s 8-slot grid (`main.js`): 7 colors + blank 8th holder (`#555` until picked):
+
+`#ff0000`, `#7fff00`, `#ffff00`, `#0000ff`, `#ff7f00`, `#bf00bf`, `#000000`, *(empty)*
+
+Default speed: **5 changes/sec** (moodlight’s Disco preset after load).
