@@ -4,9 +4,9 @@
 
 1. Open [Spotify Developer Dashboard](https://developer.spotify.com/dashboard) → **Create app**.
 2. **App name:** Strob (or any name).
-3. **Redirect URIs** — add **both**:
+3. **Redirect URIs** — add **both** (must match **exactly**, including `https`):
    - `http://localhost:3000/api/spotify/callback`
-   - `https://YOUR-VERCEL-DOMAIN/api/spotify/callback`
+   - `https://strob.vercel.app/api/spotify/callback`
 4. Copy **Client ID** and **Client secret**.
 5. Add to `.env.local` (local) and Vercel project env (production):
 
@@ -16,7 +16,9 @@ SPOTIFY_CLIENT_SECRET=...
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-On Vercel, set `NEXT_PUBLIC_APP_URL` to `https://your-domain.vercel.app` (no trailing slash).
+On Vercel, set `NEXT_PUBLIC_APP_URL` to `https://strob.vercel.app` (must use **https**, no trailing slash).
+
+**Verify after deploy:** open `https://strob.vercel.app/api/spotify/config-check` — copy `redirectUri` into Spotify Dashboard if needed.
 
 6. Restart `pnpm dev` or redeploy Vercel.
 7. On the **controller** page → **Connect Spotify** → approve scopes.
@@ -37,4 +39,12 @@ On Vercel, set `NEXT_PUBLIC_APP_URL` to `https://your-domain.vercel.app` (no tra
 
 ## Redirect URI mismatch?
 
-The callback URL must match **exactly** what is in the Spotify app settings, including `http` vs `https` and no trailing slash.
+The callback URL must match **exactly** what is in the Spotify app settings.
+
+Common mistake: app sends `http://strob.vercel.app/...` but Dashboard has `https://...`. Fix Vercel env:
+
+`NEXT_PUBLIC_APP_URL=https://strob.vercel.app`
+
+Then redeploy. Strob now forces `https` on non-localhost hosts even if env uses `http`.
+
+**Logs:** Vercel → Project → Logs (filter `/api/spotify`). Spotify itself does not give detailed errors beyond "Not matching configuration".

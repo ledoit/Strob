@@ -10,19 +10,49 @@ export const SPOTIFY_COOKIE = {
   state: "strob_spotify_oauth_state",
 } as const;
 
+/** Force https on deployed hosts; keep http only for local dev. */
+export function normalizeOrigin(raw: string): string {
+  const trimmed = raw.trim().replace(/\/$/, "");
+  const withScheme = /^https?:\/\//i.test(trimmed)
+    ? trimmed
+    : `https://${trimmed}`;
+
+  try {
+    const url = new URL(withScheme);
+    const isLocal =
+      url.hostname === "localhost" ||
+      url.hostname === "127.0.0.1" ||
+      url.hostname.endsWith(".local");
+
+    if (isLocal) {
+      url.protocol = "http:";
+    } else {
+      url.protocol = "https:";
+    }
+    url.pathname = "";
+    url.search = "";
+    url.hash = "";
+    return url.origin;
+  } catch {
+    return trimmed;
+  }
+}
+
 export function getAppOrigin(): string {
   if (process.env.NEXT_PUBLIC_APP_URL) {
-    return process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, "");
+    return normalizeOrigin(process.env.NEXT_PUBLIC_APP_URL);
   }
   if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
+    return normalizeOrigin(process.env.VERCEL_URL);
   }
   return "http://localhost:3000";
 }
 
 export function getSpotifyRedirectUri(): string {
   if (process.env.SPOTIFY_REDIRECT_URI) {
-    return process.env.SPOTIFY_REDIRECT_URI;
+    return normalizeOrigin(
+      process.env.SPOTIFY_REDIRECT_URI.replace(/\/api\/spotify\/callback\/?$/, ""),
+    ) + "/api/spotify/callback";
   }
   return `${getAppOrigin()}/api/spotify/callback`;
 }
