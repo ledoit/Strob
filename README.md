@@ -27,7 +27,9 @@ Open [http://localhost:3000](http://localhost:3000), create a session, copy the 
 
 Vercel CLI (project-local): `pnpm vercel login`, then `pnpm vercel link`, then `pnpm vercel:prod`. Set `NEXT_PUBLIC_PARTYKIT_HOST=strob-party.ledoit.partykit.dev` on Vercel.
 
-See [AGENTS.md](./AGENTS.md) for architecture, axioms, and extension notes (e.g. BPM sync).
+See [AGENTS.md](./AGENTS.md) for architecture and [SPOTIFY_SETUP.md](./SPOTIFY_SETUP.md) for Spotify v2 setup.
+
+**Versions:** v1 = core product · v2 = Spotify BPM sync · v3 = search BPM (planned).
 
 ## Supabase (later)
 

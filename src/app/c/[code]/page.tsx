@@ -2,22 +2,29 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ControllerPanel } from "@/components/ControllerPanel";
 import { StrobeCanvas } from "@/components/StrobeCanvas";
-import { useSessionParty } from "@/hooks/useSessionParty";
+import { DEFAULT_BEAT_MULTIPLIER } from "@/lib/cps";
 import {
   controllerStorageKey,
   generateControllerToken,
   isValidSessionCode,
   normalizeSessionCode,
 } from "@/lib/session-code";
+import { getStoredBeatMultiplier } from "@/lib/spotify/client-storage";
+import {
+  notifyManualCpsOverride,
+  useSpotifySync,
+} from "@/hooks/useSpotifySync";
+import { useSessionParty } from "@/hooks/useSessionParty";
 
 export default function ControllerPage() {
   const params = useParams();
   const code = normalizeSessionCode(String(params.code ?? ""));
   const [token, setToken] = useState<string | null>(null);
   const [authError, setAuthError] = useState<string | null>(null);
+  const [beatMultiplier, setBeatMultiplier] = useState(DEFAULT_BEAT_MULTIPLIER);
 
   useEffect(() => {
     if (!isValidSessionCode(code)) return;
@@ -27,6 +34,7 @@ export default function ControllerPage() {
       sessionStorage.setItem(controllerStorageKey(code), stored);
     }
     setToken(stored);
+    setBeatMultiplier(getStoredBeatMultiplier());
   }, [code]);
 
   const viewerUrl = useMemo(() => {
@@ -39,6 +47,37 @@ export default function ControllerPage() {
     controllerToken: token,
     onError: setAuthError,
   });
+
+  const onCpsFromBpm = useCallback(
+    (cps: number) => {
+      if (canControl) patch({ cps });
+    },
+    [canControl, patch],
+  );
+
+  const spotify = useSpotifySync({
+    enabled: true,
+    canControl,
+    beatMultiplier,
+    onCpsFromBpm,
+  });
+
+  const handleManualCps = useCallback(
+    (cps: number) => {
+      notifyManualCpsOverride();
+      spotify.disableSync();
+      patch({ cps });
+    },
+    [patch, spotify],
+  );
+
+  const handleBeatMultiplier = useCallback(
+    (m: number) => {
+      setBeatMultiplier(m);
+      spotify.setBeatMultiplier(m);
+    },
+    [spotify],
+  );
 
   if (!isValidSessionCode(code)) {
     return (
@@ -68,7 +107,13 @@ export default function ControllerPage() {
         canControl={canControl}
         viewerCount={viewerCount}
         onPatch={patch}
+        onManualCps={handleManualCps}
         viewerUrl={viewerUrl}
+        spotify={{
+          ...spotify,
+          beatMultiplier,
+          onBeatMultiplierChange: handleBeatMultiplier,
+        }}
       />
       <Link
         href="/"

@@ -111,9 +111,19 @@ Vercel CLI is a **devDependency** — use `pnpm vercel`, not global `vercel`.
 
 ---
 
+## Versioning
+
+| Version | Scope |
+|---------|--------|
+| **v1** | Shipped MVP — live sessions, PartyKit sync, moodlight palette, viewer auto-hide |
+| **v2** | Spotify — now playing → BPM → CPS with beat multiplier; manual override anytime |
+| **v3** | Search bar BPM lookup (no playback required; fallback when audio-features missing) |
+
+Do not renumber v1 to v0; it is already public.
+
 ## Extension: BPM-synced CPS (Spotify or search)
 
-**Verdict: Yes, it works.** Recommended as a controller-only feature that still patches the same `SessionState.cps`.
+**v2 implemented** on the controller only; patches `SessionState.cps`. See `SPOTIFY_SETUP.md`.
 
 ### Mode model (add to state later)
 

@@ -3,6 +3,25 @@
 import { MAX_CPS, MIN_CPS } from "@/lib/colors";
 import type { SessionState } from "@/lib/session-state";
 import { ColorPalette } from "./ColorPalette";
+import { SpotifySyncPanel } from "./SpotifySyncPanel";
+
+type SpotifyProps = {
+  configured: boolean;
+  connected: boolean;
+  syncEnabled: boolean;
+  track: {
+    name: string;
+    artist: string;
+    bpm: number | null;
+    isPlaying: boolean;
+  } | null;
+  error: string | null;
+  beatMultiplier: number;
+  onBeatMultiplierChange: (m: number) => void;
+  enableSync: () => void;
+  disableSync: () => void;
+  logout: () => void;
+};
 
 type ControllerPanelProps = {
   sessionCode: string;
@@ -11,7 +30,9 @@ type ControllerPanelProps = {
   canControl: boolean;
   viewerCount: number;
   onPatch: (patch: Partial<SessionState>) => void;
+  onManualCps: (cps: number) => void;
   viewerUrl: string;
+  spotify: SpotifyProps;
 };
 
 export function ControllerPanel({
@@ -21,14 +42,20 @@ export function ControllerPanel({
   canControl,
   viewerCount,
   onPatch,
+  onManualCps,
   viewerUrl,
+  spotify,
 }: ControllerPanelProps) {
   const copyViewerLink = async () => {
     await navigator.clipboard.writeText(viewerUrl);
   };
 
+  const cpsLabel = spotify.syncEnabled
+    ? `${state.cps.toFixed(2)} / sec (synced)`
+    : `${state.cps.toFixed(2)} / sec`;
+
   return (
-    <div className="fixed inset-x-0 bottom-0 z-20 mx-auto max-w-3xl p-4">
+    <div className="fixed inset-x-0 bottom-0 z-20 mx-auto max-h-[85vh] max-w-3xl overflow-y-auto p-4">
       <div className="rounded-2xl border border-zinc-700/80 bg-zinc-900/95 p-4 shadow-2xl backdrop-blur">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
           <div>
@@ -61,7 +88,7 @@ export function ControllerPanel({
               className="mb-1 block text-sm font-medium text-zinc-300"
             >
               Change color:{" "}
-              <span className="text-zinc-100">{state.cps.toFixed(2)} / sec</span>
+              <span className="text-zinc-100">{cpsLabel}</span>
             </label>
             <input
               id="cps"
@@ -70,7 +97,7 @@ export function ControllerPanel({
               max={MAX_CPS}
               step={0.05}
               value={state.cps}
-              onChange={(e) => onPatch({ cps: Number(e.target.value) })}
+              onChange={(e) => onManualCps(Number(e.target.value))}
               className="w-full accent-violet-400"
             />
           </div>
@@ -87,6 +114,20 @@ export function ControllerPanel({
             {state.playing ? "Turn Off" : "Turn On"}
           </button>
         </div>
+
+        <SpotifySyncPanel
+          sessionCode={sessionCode}
+          configured={spotify.configured}
+          connected={spotify.connected}
+          syncEnabled={spotify.syncEnabled}
+          track={spotify.track}
+          error={spotify.error}
+          beatMultiplier={spotify.beatMultiplier}
+          onBeatMultiplierChange={spotify.onBeatMultiplierChange}
+          onEnableSync={spotify.enableSync}
+          onDisableSync={spotify.disableSync}
+          onLogout={spotify.logout}
+        />
 
         <div className="mt-4 flex flex-wrap gap-2">
           <button
