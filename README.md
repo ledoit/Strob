@@ -25,7 +25,9 @@ Open [http://localhost:3000](http://localhost:3000), create a session, copy the 
 2. **Vercel** — import `git@github.com:ledoit/Strob.git`, preset **Next.js** (default). Build: `pnpm build`, install: `pnpm install`. Set env `NEXT_PUBLIC_PARTYKIT_HOST` to your PartyKit host (no `https://`).
 3. Redeploy the frontend after PartyKit is live.
 
-Vercel CLI (for agents / CI later): `vercel link` then `vercel deploy` / `vercel deploy --prod` once logged in (`vercel login`).
+Vercel CLI (project-local): `pnpm vercel login`, then `pnpm vercel link`, then `pnpm vercel:prod`. Set `NEXT_PUBLIC_PARTYKIT_HOST=strob-party.ledoit.partykit.dev` on Vercel.
+
+See [AGENTS.md](./AGENTS.md) for architecture, axioms, and extension notes (e.g. BPM sync).
 
 ## Supabase (later)
 
