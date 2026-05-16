@@ -14,6 +14,7 @@ type TrackPayload = {
   name: string;
   artist: string;
   bpm: number | null;
+  bpmSource?: string | null;
   isPlaying: boolean;
 };
 

@@ -117,7 +117,7 @@ Vercel CLI is a **devDependency** — use `pnpm vercel`, not global `vercel`.
 |---------|--------|
 | **v1** | Shipped MVP — live sessions, PartyKit sync, moodlight palette, viewer auto-hide |
 | **v2** | Spotify — now playing → BPM → CPS with beat multiplier; manual override anytime |
-| **v3** | Search bar BPM lookup (no playback required; fallback when audio-features missing) |
+| **v3** | Search bar BPM lookup via GetSongBPM (same key as v2 fallback) |
 
 Do not renumber v1 to v0; it is already public.
 
@@ -153,15 +153,12 @@ Flow:
 - **Terms**: display “Powered by Spotify”, no sync audio; metadata-only is standard.
 - Polling latency 1–3s is fine for CPS; strobe does not need sample-accurate beat phase in v1.
 
-### Option B — Search bar (no playback)
+### v3 + v2 fallback (implemented)
 
-Often **better for MVP after manual CPS**:
-
-1. User types track name.
-2. Server searches Spotify (`/search`) or free BPM DB (GetSongBPM, MusicBrainz).
-3. User picks result → BPM → multiplier → patch session.
-
-Fewer permission scopes than “currently playing”; works for DJs planning ahead.
+- `GETSONGBPM_API_KEY` → `src/lib/bpm/getsongbpm.ts`
+- `resolveBpm()` tries Spotify tempo (legacy apps only), then GetSongBPM by title+artist
+- Spotify now-playing auto-calls `resolveBpm` when audio-features 403
+- `GET /api/bpm/search?q=` + `BpmSearchPanel` on controller
 
 ### What not to do
 

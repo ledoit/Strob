@@ -35,7 +35,20 @@ On Vercel, set `NEXT_PUBLIC_APP_URL` to `https://strob.vercel.app` (must use **h
 
 - Spotify account (free tier is fine for Web API metadata).
 - Something must be **actively playing** on your account (app open, device selected).
-- Some tracks lack BPM in audio-features; pick another track or use manual CPS until v3 search.
+- **GETSONGBPM_API_KEY** — Spotify [removed audio-features for new apps](https://developer.spotify.com/blog/2024-11-27-changes-to-the-web-api) (403). Strob auto-looks up BPM via [GetSongBPM](https://getsongbpm.com/api) using the song title + artist from now playing.
+
+### GetSongBPM (required for BPM)
+
+1. Register at [getsongbpm.com/api](https://getsongbpm.com/api) (free).
+2. Add to `.env.local` and Vercel:
+
+```env
+GETSONGBPM_API_KEY=your_key
+```
+
+3. Redeploy. Controller shows BPM source as **GetSongBPM** when matched.
+
+**v3 search bar** on the controller uses the same API — search any track and tap a result to apply CPS.
 
 ## Redirect URI mismatch?
 

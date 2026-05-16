@@ -1,4 +1,6 @@
 import { cookies } from "next/headers";
+import { resolveBpm } from "@/lib/bpm/resolve";
+import type { BpmSource } from "@/lib/bpm/types";
 import { SPOTIFY_COOKIE, getSpotifyRedirectUri, spotifyConfigured } from "./config";
 
 const TOKEN_URL = "https://accounts.spotify.com/api/token";
@@ -9,6 +11,7 @@ export type SpotifyTrackInfo = {
   name: string;
   artist: string;
   bpm: number | null;
+  bpmSource: BpmSource | null;
   isPlaying: boolean;
 };
 
@@ -181,22 +184,32 @@ export async function fetchNowPlayingTrack(): Promise<SpotifyTrackInfo | null> {
   const item = playing.item;
   if (!item?.id) return null;
 
-  let bpm: number | null = null;
+  let spotifyTempo: number | null = null;
   try {
     const features = await spotifyFetch<AudioFeaturesResponse>(
       `/audio-features/${item.id}`,
       accessToken,
     );
-    if (features && features.tempo > 0) bpm = Math.round(features.tempo);
+    if (features && features.tempo > 0) spotifyTempo = features.tempo;
   } catch {
-    bpm = null;
+    /* New Spotify apps get 403 on audio-features — fallback in resolveBpm */
   }
+
+  const title = item.name;
+  const artist = item.artists.map((a) => a.name).join(", ");
+  const resolved = await resolveBpm({
+    title,
+    artist,
+    spotifyTrackId: item.id,
+    spotifyTempo,
+  });
 
   return {
     trackId: item.id,
-    name: item.name,
-    artist: item.artists.map((a) => a.name).join(", "),
-    bpm,
+    name: title,
+    artist,
+    bpm: resolved?.bpm ?? null,
+    bpmSource: resolved?.source ?? null,
     isPlaying: playing.is_playing ?? false,
   };
 }

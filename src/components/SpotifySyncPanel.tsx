@@ -1,5 +1,7 @@
 "use client";
 
+import { formatBpmSource } from "@/lib/bpm/resolve";
+import type { BpmSource } from "@/lib/bpm/types";
 import { BPM_MULTIPLIERS } from "@/lib/cps";
 
 type SpotifySyncPanelProps = {
@@ -11,6 +13,7 @@ type SpotifySyncPanelProps = {
     name: string;
     artist: string;
     bpm: number | null;
+    bpmSource?: BpmSource | null;
     isPlaying: boolean;
   } | null;
   error: string | null;
@@ -47,7 +50,7 @@ export function SpotifySyncPanel({
   return (
     <div className="mt-4 rounded-xl border border-zinc-700/60 bg-zinc-950/80 p-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="text-sm font-medium text-zinc-200">Spotify · v2</p>
+        <p className="text-sm font-medium text-zinc-200">Spotify</p>
         {!connected ? (
           <a
             href={loginHref}
@@ -69,7 +72,9 @@ export function SpotifySyncPanel({
       {connected && track && (
         <p className="mt-2 truncate text-xs text-zinc-400">
           {track.name} — {track.artist}
-          {track.bpm != null ? ` · ${track.bpm} BPM` : " · BPM unknown"}
+          {track.bpm != null
+            ? ` · ${track.bpm} BPM${track.bpmSource ? ` (${formatBpmSource(track.bpmSource)})` : ""}`
+            : " · BPM unknown — try BPM search below"}
           {!track.isPlaying ? " (paused)" : ""}
         </p>
       )}

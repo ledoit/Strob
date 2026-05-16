@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { bpmToCps } from "@/lib/cps";
 import { ControllerPanel } from "@/components/ControllerPanel";
 import { StrobeCanvas } from "@/components/StrobeCanvas";
 import { DEFAULT_BEAT_MULTIPLIER } from "@/lib/cps";
@@ -25,6 +26,7 @@ export default function ControllerPage() {
   const [token, setToken] = useState<string | null>(null);
   const [authError, setAuthError] = useState<string | null>(null);
   const [beatMultiplier, setBeatMultiplier] = useState(DEFAULT_BEAT_MULTIPLIER);
+  const appliedBpmRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!isValidSessionCode(code)) return;
@@ -75,8 +77,21 @@ export default function ControllerPage() {
     (m: number) => {
       setBeatMultiplier(m);
       spotify.setBeatMultiplier(m);
+      if (appliedBpmRef.current != null && canControl) {
+        patch({ cps: bpmToCps(appliedBpmRef.current, m) });
+      }
     },
-    [spotify],
+    [spotify, canControl, patch],
+  );
+
+  const handleApplyBpm = useCallback(
+    (bpm: number) => {
+      appliedBpmRef.current = bpm;
+      notifyManualCpsOverride();
+      spotify.disableSync();
+      if (canControl) patch({ cps: bpmToCps(bpm, beatMultiplier) });
+    },
+    [beatMultiplier, canControl, patch, spotify],
   );
 
   if (!isValidSessionCode(code)) {
@@ -108,6 +123,7 @@ export default function ControllerPage() {
         viewerCount={viewerCount}
         onPatch={patch}
         onManualCps={handleManualCps}
+        onApplyBpm={handleApplyBpm}
         viewerUrl={viewerUrl}
         spotify={{
           ...spotify,

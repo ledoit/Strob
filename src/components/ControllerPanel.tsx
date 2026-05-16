@@ -3,6 +3,7 @@
 import { MAX_CPS, MIN_CPS } from "@/lib/colors";
 import type { SessionState } from "@/lib/session-state";
 import { ColorPalette } from "./ColorPalette";
+import { BpmSearchPanel } from "./BpmSearchPanel";
 import { SpotifySyncPanel } from "./SpotifySyncPanel";
 
 type SpotifyProps = {
@@ -31,6 +32,7 @@ type ControllerPanelProps = {
   viewerCount: number;
   onPatch: (patch: Partial<SessionState>) => void;
   onManualCps: (cps: number) => void;
+  onApplyBpm: (bpm: number, meta: { title: string; artist: string }) => void;
   viewerUrl: string;
   spotify: SpotifyProps;
 };
@@ -43,6 +45,7 @@ export function ControllerPanel({
   viewerCount,
   onPatch,
   onManualCps,
+  onApplyBpm,
   viewerUrl,
   spotify,
 }: ControllerPanelProps) {
@@ -127,6 +130,11 @@ export function ControllerPanel({
           onEnableSync={spotify.enableSync}
           onDisableSync={spotify.disableSync}
           onLogout={spotify.logout}
+        />
+
+        <BpmSearchPanel
+          beatMultiplier={spotify.beatMultiplier}
+          onApplyBpm={onApplyBpm}
         />
 
         <div className="mt-4 flex flex-wrap gap-2">
