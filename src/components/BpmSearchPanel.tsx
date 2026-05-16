@@ -34,8 +34,10 @@ export function BpmSearchPanel({
       }
       setConfigured(true);
       setResults(data.results ?? []);
-      if ((data.results ?? []).length === 0) {
-        setError("No matches — try artist + song title.");
+      if (data.error) {
+        setError(String(data.error));
+      } else if ((data.results ?? []).length === 0) {
+        setError('No matches — try "Closer Chainsmokers" or "Closer - The Chainsmokers".');
       }
     } catch {
       setError("Search request failed.");

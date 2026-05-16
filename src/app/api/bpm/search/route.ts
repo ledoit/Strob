@@ -21,6 +21,13 @@ export async function GET(request: Request) {
     );
   }
 
-  const results = await searchGetSongBpm(q);
-  return NextResponse.json({ configured: true, results });
+  const { results, error } = await searchGetSongBpm(q);
+  return NextResponse.json({
+    configured: true,
+    results,
+    error,
+    hint: error
+      ? "Check GETSONGBPM_API_KEY on Vercel and redeploy. See /api/bpm/health"
+      : undefined,
+  });
 }

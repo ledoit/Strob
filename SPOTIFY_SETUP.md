@@ -18,7 +18,12 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 On Vercel, set `NEXT_PUBLIC_APP_URL` to `https://strob.vercel.app` (must use **https**, no trailing slash).
 
-**Verify after deploy:** open `https://strob.vercel.app/api/spotify/config-check` — copy `redirectUri` into Spotify Dashboard if needed.
+**Verify after deploy:**
+
+- Spotify redirect: `https://strob.vercel.app/api/spotify/config-check`
+- BPM API: `https://strob.vercel.app/api/bpm/health` — should show `"ok": true`
+
+Search uses GetSongBPM format `song:Title+artist:Artist` (not plain text). Example query: `Closer Chainsmokers`.
 
 6. Restart `pnpm dev` or redeploy Vercel.
 7. On the **controller** page → **Connect Spotify** → approve scopes.
