@@ -29,7 +29,15 @@ Vercel CLI (project-local): `pnpm vercel login`, then `pnpm vercel link`, then `
 
 See [AGENTS.md](./AGENTS.md) for architecture and [SPOTIFY_SETUP.md](./SPOTIFY_SETUP.md) for Spotify v2 setup.
 
-**Versions:** v1 = core product · v2 = Spotify BPM sync · v3 = search BPM (planned).
+**Versions:** v1 = core product · v2 = Spotify BPM sync · v3 = GetSongBPM search (shipped).
+
+### Environment variables
+
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `NEXT_PUBLIC_PARTYKIT_HOST` | Production | PartyKit hostname (no `https://`) |
+| `GETSONGBPM_API_KEY` | v3 search | GetSongBPM API for title/artist BPM lookup |
+| Spotify OAuth vars | v2 sync | See [SPOTIFY_SETUP.md](./SPOTIFY_SETUP.md) |
 
 ## Supabase (later)
 

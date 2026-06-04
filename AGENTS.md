@@ -117,7 +117,7 @@ Vercel CLI is a **devDependency** — use `pnpm vercel`, not global `vercel`.
 |---------|--------|
 | **v1** | Shipped MVP — live sessions, PartyKit sync, moodlight palette, viewer auto-hide |
 | **v2** | Spotify — now playing → BPM → CPS with beat multiplier; manual override anytime |
-| **v3** | Search bar BPM lookup via GetSongBPM (same key as v2 fallback) |
+| **v3** | **Shipped** — search bar BPM lookup via GetSongBPM (`BpmSearchPanel`, `GET /api/bpm/search`) |
 
 Do not renumber v1 to v0; it is already public.
 
@@ -182,13 +182,14 @@ Replace PartyKit with Supabase Realtime channel `session:{code}` broadcasting th
 
 ## Quality bar for “public MVP”
 
-- [ ] Warning gate before strobe
-- [ ] Controller + viewer stay in sync for 5+ minutes
-- [ ] Session code join works cross-device
-- [ ] `NEXT_PUBLIC_PARTYKIT_HOST` set in production
-- [ ] No secrets in git
-- [ ] README + this file updated when behavior changes
+- [x] Warning gate before strobe
+- [x] Controller + viewer stay in sync for 5+ minutes
+- [x] Session code join works cross-device
+- [x] `NEXT_PUBLIC_PARTYKIT_HOST` set in production
+- [x] No secrets in git
+- [x] README + this file updated when behavior changes
+- [x] v2 Spotify + v3 GetSongBPM search on controller
 
 ---
 
-*Last updated: MVP release — PartyKit deployed, Vercel CLI in repo, BPM extension documented.*
+*Last updated: 2026-05-25 — v3 BPM search shipped; quality checklist reflects production MVP.*
