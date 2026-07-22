@@ -50,3 +50,8 @@ Default palette matches moodlight.org’s 8-slot grid (`main.js`): 7 colors + bl
 `#ff0000`, `#7fff00`, `#ffff00`, `#0000ff`, `#ff7f00`, `#bf00bf`, `#000000`, *(empty)*
 
 Default speed: **5 changes/sec** (moodlight’s Disco preset after load).
+
+
+## License
+
+All Rights Reserved © Menhir Holdings
