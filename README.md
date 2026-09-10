@@ -1,6 +1,6 @@
 # Strob
 
-Live-synced mood light sessions — a [moodlight.org](https://www.moodlight.org)-inspired strobe with a **controller** (one device) and **viewers** (many devices) joined by a 4-character session code.
+Party engineering: live-synced program output — a [moodlight.org](https://www.moodlight.org)-inspired strobe with a **board** (one controller) and **walls** (many viewers) joined by a 4-character show code.
 
 ## Stack
 

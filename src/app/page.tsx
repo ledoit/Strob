@@ -25,7 +25,7 @@ export default function HomePage() {
   const joinViewer = () => {
     const code = normalizeSessionCode(joinCode);
     if (!isValidSessionCode(code)) {
-      setError("Enter a 4-character session code (A–Z, 2–9).");
+      setError("Enter a 4-character show code (A–Z, 2–9).");
       return;
     }
     setError(null);
@@ -35,7 +35,7 @@ export default function HomePage() {
   const joinController = () => {
     const code = normalizeSessionCode(joinCode);
     if (!isValidSessionCode(code)) {
-      setError("Enter a 4-character session code (A–Z, 2–9).");
+      setError("Enter a 4-character show code (A–Z, 2–9).");
       return;
     }
     setError(null);
@@ -43,28 +43,27 @@ export default function HomePage() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-black px-4">
-      <div className="w-full max-w-md space-y-8 text-center">
-        <div>
-          <h1 className="text-4xl font-bold tracking-tight text-zinc-50">
-            Strob
-          </h1>
-          <p className="mt-2 text-zinc-400">
-            Live-synced mood lights for parties. One controller, many viewers.
-          </p>
-        </div>
+    <main className="flex min-h-dvh flex-col bg-[#0b0b0c] xl:flex-row">
+      <section className="flex w-full flex-col justify-center px-6 py-16 xl:w-[28rem] xl:shrink-0 xl:border-r xl:border-[#2c2c2e] xl:px-10">
+        <p className="rack-label">Party engineering</p>
+        <h1 className="mt-3 font-mono text-4xl font-medium tracking-tight text-[#f2f1ee]">
+          STROB
+        </h1>
+        <p className="mt-3 max-w-sm text-[15px] leading-relaxed text-[#9a9a94]">
+          One board. Many walls. Live-synced program output for the room.
+        </p>
 
         <button
           type="button"
           onClick={createSession}
-          className="w-full rounded-xl bg-violet-600 py-3 text-lg font-semibold text-white hover:bg-violet-500"
+          className="mt-10 h-12 w-full bg-[#d8d5cc] font-mono text-sm font-medium tracking-wide text-[#0b0b0c] hover:bg-[#ece9e1]"
         >
-          Create session (controller)
+          New patch
         </button>
 
-        <div className="space-y-3 rounded-xl border border-zinc-800 bg-zinc-950 p-4">
-          <label htmlFor="code" className="block text-left text-sm text-zinc-400">
-            Session code
+        <div className="mt-8 border border-[#2c2c2e] bg-[#141416] p-4">
+          <label htmlFor="code" className="rack-label block">
+            Show code
           </label>
           <input
             id="code"
@@ -74,27 +73,40 @@ export default function HomePage() {
             }
             maxLength={4}
             placeholder="ABCD"
-            className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-center font-mono text-2xl tracking-[0.4em] text-zinc-100 uppercase outline-none focus:border-violet-500"
+            className="mt-3 w-full border border-[#2c2c2e] bg-[#0b0b0c] px-4 py-3 text-center font-mono text-2xl tracking-[0.4em] text-[#f2f1ee] uppercase outline-none placeholder:text-[#3a3a3c] focus:border-[#d8d5cc]"
           />
-          {error && <p className="text-left text-sm text-red-400">{error}</p>}
-          <div className="grid grid-cols-2 gap-2 pt-1">
+          {error && (
+            <p className="mt-2 text-left text-sm text-[#f2f1ee]">{error}</p>
+          )}
+          <div className="mt-3 grid grid-cols-2 gap-2">
             <button
               type="button"
               onClick={joinViewer}
-              className="rounded-lg border border-zinc-600 py-2.5 text-sm font-medium text-zinc-100 hover:bg-zinc-800"
+              className="h-11 border border-[#2c2c2e] font-mono text-xs tracking-wide text-[#f2f1ee] hover:border-[#d8d5cc]"
             >
-              Join as viewer
+              Join output
             </button>
             <button
               type="button"
               onClick={joinController}
-              className="rounded-lg border border-zinc-600 py-2.5 text-sm font-medium text-zinc-100 hover:bg-zinc-800"
+              className="h-11 border border-[#2c2c2e] font-mono text-xs tracking-wide text-[#f2f1ee] hover:border-[#d8d5cc]"
             >
-              Open controller
+              Open board
             </button>
           </div>
         </div>
-      </div>
+      </section>
+
+      <section className="relative hidden min-h-[40vh] flex-1 flex-col p-4 xl:flex">
+        <p className="rack-label px-1 pb-2">Program</p>
+        <div className="relative min-h-0 flex-1 border border-[#2c2c2e] bg-black">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <p className="font-mono text-[10px] tracking-[0.22em] text-[#3a3a3c] uppercase">
+              Standby — no patch
+            </p>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

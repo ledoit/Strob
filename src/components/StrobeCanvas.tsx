@@ -5,12 +5,16 @@ import type { SessionState } from "@/lib/session-state";
 
 type StrobeCanvasProps = {
   state: SessionState;
+  className?: string;
 };
 
-export function StrobeCanvas({ state }: StrobeCanvasProps) {
+export function StrobeCanvas({ state, className }: StrobeCanvasProps) {
   const { color } = useStrobeDisplay(state);
 
   return (
-    <div className="fixed inset-0" style={{ backgroundColor: color }} />
+    <div
+      className={className ?? "fixed inset-0"}
+      style={{ backgroundColor: color }}
+    />
   );
 }

@@ -96,10 +96,13 @@ export default function ControllerPage() {
 
   if (!isValidSessionCode(code)) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-black text-zinc-300">
+      <main className="flex min-h-dvh items-center justify-center bg-[#0b0b0c] text-[#c4c4bc]">
         <div className="text-center">
-          <p>Invalid session code.</p>
-          <Link href="/" className="mt-4 inline-block text-violet-400 underline">
+          <p className="rack-label">Invalid show code</p>
+          <Link
+            href="/"
+            className="mt-4 inline-block font-mono text-sm text-[#f2f1ee] underline decoration-[#6a6a64] underline-offset-2"
+          >
             Home
           </Link>
         </div>
@@ -108,35 +111,23 @@ export default function ControllerPage() {
   }
 
   return (
-    <>
-      <StrobeCanvas state={state} />
-      {authError && (
-        <div className="fixed top-4 left-1/2 z-30 -translate-x-1/2 rounded-lg bg-red-900/90 px-4 py-2 text-sm text-red-100">
-          {authError}
-        </div>
-      )}
-      <ControllerPanel
-        sessionCode={code}
-        state={state}
-        connected={connected}
-        canControl={canControl}
-        viewerCount={viewerCount}
-        onPatch={patch}
-        onManualCps={handleManualCps}
-        onApplyBpm={handleApplyBpm}
-        viewerUrl={viewerUrl}
-        spotify={{
-          ...spotify,
-          beatMultiplier,
-          onBeatMultiplierChange: handleBeatMultiplier,
-        }}
-      />
-      <Link
-        href="/"
-        className="fixed top-4 left-4 z-30 rounded-lg bg-black/50 px-3 py-1.5 text-sm text-white/70 backdrop-blur hover:text-white"
-      >
-        Strob
-      </Link>
-    </>
+    <ControllerPanel
+      sessionCode={code}
+      state={state}
+      connected={connected}
+      canControl={canControl}
+      viewerCount={viewerCount}
+      onPatch={patch}
+      onManualCps={handleManualCps}
+      onApplyBpm={handleApplyBpm}
+      viewerUrl={viewerUrl}
+      authError={authError}
+      program={<StrobeCanvas state={state} className="absolute inset-0" />}
+      spotify={{
+        ...spotify,
+        beatMultiplier,
+        onBeatMultiplierChange: handleBeatMultiplier,
+      }}
+    />
   );
 }

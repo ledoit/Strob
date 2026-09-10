@@ -35,3 +35,21 @@ export function normalizeHex(color: string): string {
 export function paletteColors(colors: string[]): string[] {
   return colors.map(normalizeHex).filter((c) => c.length > 0);
 }
+
+/** Map a playing palette index (empties skipped) back to the 0-based cue slot. */
+export function slotIndexForPaletteIndex(
+  colors: string[],
+  paletteIndex: number,
+): number {
+  const active = paletteColors(colors);
+  if (active.length === 0) return -1;
+  const target = ((paletteIndex % active.length) + active.length) % active.length;
+  let n = 0;
+  for (let i = 0; i < colors.length; i++) {
+    if (normalizeHex(colors[i])) {
+      if (n === target) return i;
+      n += 1;
+    }
+  }
+  return -1;
+}

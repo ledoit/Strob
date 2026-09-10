@@ -72,12 +72,12 @@ We optimized for **shipping a trustworthy MVP**, not for maximal features on day
 
 ## UX & writing axioms
 
-- **Warning first** — same moral weight as moodlight; link to photosensitive epilepsy article.
-- **Session code is the product** — monospace, wide tracking, copy viewer link from controller.
-- **Viewer chrome auto-hides** (~2.5s) and returns on mouse, touch, scroll, key (`useAutoHide`).
-- **Controller panel stays visible** — this is the “desk”; viewer is the “wall.”
-- **Plain language** — “changes/sec”, “Turn On/Off”, not internal terms like `epochMs`.
-- **8 color slots in 4×2 grid** — empty slot = gray `#555`; cycling skips empty via `paletteColors()`.
+- **Warning first** — photosensitive lockout before any flashing; link to the epilepsy article.
+- **Show code is the product** — 4 characters, monospace, wide tracking; copy output link from the board.
+- **Viewer is the wall** — full-bleed program output; chrome is a gaffer label that auto-hides (~2.5s via `useAutoHide`).
+- **Controller is the board** — lighting plot over a framed program monitor, numbered cue list, cue-stack timeline, GO/HOLD. Not a mood-light overlay, not a club HUD.
+- **Quiet industrial chrome** — graphite rack, gaffer tape, dimmer faders. Not amber Instagram, not violet SaaS, not lime trainer, not Big Shoulders.
+- **8 numbered cues** — empty slot = gray `#555`; cycling skips empty via `paletteColors()`.
 
 ---
 
@@ -92,8 +92,9 @@ We optimized for **shipping a trustworthy MVP**, not for maximal features on day
 | `src/hooks/useSessionParty.ts` | Client WS, optimistic patch, claim queue |
 | `src/hooks/useStrobeDisplay.ts` | Local color refresh timer |
 | `src/hooks/useAutoHide.ts` | Viewer overlay visibility |
-| `src/components/ViewerChrome.tsx` | Viewer HUD + Leave |
-| `src/components/ControllerPanel.tsx` | CPS, palette, power, share link |
+| `src/components/ViewerChrome.tsx` | Wall gaffer labels + Leave |
+| `src/components/ControllerPanel.tsx` | Board: program well, cue list, rate, playback |
+| `src/components/CueTimeline.tsx` | Numbered cue strips + rate lane |
 
 ---
 
@@ -192,4 +193,4 @@ Replace PartyKit with Supabase Realtime channel `session:{code}` broadcasting th
 
 ---
 
-*Last updated: 2026-05-25 — v3 BPM search shipped; quality checklist reflects production MVP.*
+*Last updated: 2026-09-10 — MT-216 party-engineering chrome (program monitor, cue stack, GO/HOLD).*

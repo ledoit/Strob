@@ -17,10 +17,13 @@ export default function ViewerPage() {
 
   if (!isValidSessionCode(code)) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-black text-zinc-300">
+      <main className="flex min-h-dvh items-center justify-center bg-[#0b0b0c] text-[#c4c4bc]">
         <div className="text-center">
-          <p>Invalid session code.</p>
-          <Link href="/" className="mt-4 inline-block text-violet-400 underline">
+          <p className="rack-label">Invalid show code</p>
+          <Link
+            href="/"
+            className="mt-4 inline-block font-mono text-sm text-[#f2f1ee] underline decoration-[#6a6a64] underline-offset-2"
+          >
             Home
           </Link>
         </div>
