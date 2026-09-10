@@ -7,7 +7,8 @@
 
 ## Open
 
-- [MT-204](https://linear.app/menhir-holdings/issue/MT-204/strob-homecontrollerviewer-chrome-to-new-menhir-web-standard) — home / controller / viewer chrome to Menhir web standard (In Review)
+- [MT-204](https://linear.app/menhir-holdings/issue/MT-204/strob-homecontrollerviewer-chrome-to-new-menhir-web-standard) — home / controller / viewer chrome to Menhir web standard (In Review)  
+  [PR #2](https://github.com/menhir-holdings/Strob/pull/2) · Preview: [strob-hl52prs2q-menhir-holdings.vercel.app](https://strob-hl52prs2q-menhir-holdings.vercel.app)
 
 ## Shipped (this pass)
 
