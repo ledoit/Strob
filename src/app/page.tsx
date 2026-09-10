@@ -43,57 +43,77 @@ export default function HomePage() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-black px-4">
-      <div className="w-full max-w-md space-y-8 text-center">
-        <div>
-          <h1 className="text-4xl font-bold tracking-tight text-zinc-50">
-            Strob
-          </h1>
-          <p className="mt-2 text-zinc-400">
-            Live-synced mood lights for parties. One controller, many viewers.
-          </p>
-        </div>
+    <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-void px-5 py-16">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_70%_at_50%_115%,rgba(255,176,32,0.18),transparent_55%)]"
+      />
+      <div className="relative w-full max-w-md">
+        <p className="font-ui text-[13px] font-medium uppercase tracking-[0.42em] text-gel">
+          Desk / wall
+        </p>
+        <h1 className="mt-2 font-display text-[clamp(4.5rem,18vw,7.5rem)] leading-[0.8] font-extrabold tracking-tight text-ink">
+          STROB
+        </h1>
+        <p className="mt-5 max-w-sm font-ui text-lg leading-snug font-medium text-mute">
+          Live-synced party mood lights. One controller, many viewers.
+        </p>
 
         <button
           type="button"
           onClick={createSession}
-          className="w-full rounded-xl bg-violet-600 py-3 text-lg font-semibold text-white hover:bg-violet-500"
+          className="mt-10 w-full bg-gel py-4 font-display text-2xl font-extrabold tracking-[0.18em] text-void uppercase hover:bg-gel-hot"
         >
-          Create session (controller)
+          Create session
         </button>
+        <p className="mt-2 font-ui text-[13px] tracking-wide text-mute">
+          Opens the lighting desk. Share the 4-character code with the room.
+        </p>
 
-        <div className="space-y-3 rounded-xl border border-zinc-800 bg-zinc-950 p-4">
-          <label htmlFor="code" className="block text-left text-sm text-zinc-400">
-            Session code
-          </label>
-          <input
-            id="code"
-            value={joinCode}
-            onChange={(e) =>
-              setJoinCode(normalizeSessionCode(e.target.value))
-            }
-            maxLength={4}
-            placeholder="ABCD"
-            className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-center font-mono text-2xl tracking-[0.4em] text-zinc-100 uppercase outline-none focus:border-violet-500"
-          />
-          {error && <p className="text-left text-sm text-red-400">{error}</p>}
-          <div className="grid grid-cols-2 gap-2 pt-1">
-            <button
-              type="button"
-              onClick={joinViewer}
-              className="rounded-lg border border-zinc-600 py-2.5 text-sm font-medium text-zinc-100 hover:bg-zinc-800"
-            >
-              Join as viewer
-            </button>
-            <button
-              type="button"
-              onClick={joinController}
-              className="rounded-lg border border-zinc-600 py-2.5 text-sm font-medium text-zinc-100 hover:bg-zinc-800"
-            >
-              Open controller
-            </button>
-          </div>
+        <div className="mt-12 flex items-center gap-3">
+          <span className="h-px flex-1 bg-gel/25" />
+          <span className="font-ui text-[13px] font-medium uppercase tracking-[0.32em] text-mute">
+            Or join
+          </span>
+          <span className="h-px flex-1 bg-gel/25" />
         </div>
+
+        <label
+          htmlFor="code"
+          className="mt-6 block font-ui text-[13px] font-medium uppercase tracking-[0.28em] text-ink"
+        >
+          Access code
+        </label>
+        <input
+          id="code"
+          value={joinCode}
+          onChange={(e) => setJoinCode(normalizeSessionCode(e.target.value))}
+          maxLength={4}
+          placeholder="ABCD"
+          autoComplete="off"
+          spellCheck={false}
+          className="mt-2 w-full border-0 border-b border-gel/40 bg-transparent px-0 py-3 text-center font-display text-5xl font-extrabold tracking-[0.42em] text-ink uppercase outline-none placeholder:text-mute/40 focus:border-gel"
+        />
+        {error && (
+          <p className="mt-2 font-ui text-sm text-gel" role="alert">
+            {error}
+          </p>
+        )}
+
+        <button
+          type="button"
+          onClick={joinViewer}
+          className="mt-6 w-full border border-gel bg-transparent py-3.5 font-display text-xl font-bold tracking-[0.16em] text-gel uppercase hover:bg-gel hover:text-void"
+        >
+          Join as viewer
+        </button>
+        <button
+          type="button"
+          onClick={joinController}
+          className="mt-3 w-full py-2 font-ui text-sm font-medium uppercase tracking-[0.2em] text-mute hover:text-gel"
+        >
+          Open controller instead
+        </button>
       </div>
     </main>
   );

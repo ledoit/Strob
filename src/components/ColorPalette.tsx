@@ -19,8 +19,10 @@ export function ColorPalette({ colors, onChange }: ColorPaletteProps) {
   );
 
   return (
-    <div className="space-y-2">
-      <p className="text-sm font-medium text-zinc-300">Colors</p>
+    <div>
+      <p className="mb-2 font-ui text-[13px] font-medium uppercase tracking-[0.28em] text-mute">
+        Scenes
+      </p>
       <div className="grid grid-cols-4 gap-2">
         {slots.map((color, index) => {
           const hex = normalizeHex(color);
@@ -28,12 +30,20 @@ export function ColorPalette({ colors, onChange }: ColorPaletteProps) {
           return (
             <label
               key={index}
-              className="relative flex h-11 w-11 cursor-pointer items-center justify-center rounded-full ring-2 ring-zinc-600 transition hover:ring-zinc-400"
-              style={{
-                backgroundColor: isBlank ? BLANK_SLOT_COLOR : hex,
-              }}
-              title={isBlank ? `Color ${index + 1} (empty)` : `Color ${index + 1}`}
+              className="relative flex aspect-square cursor-pointer flex-col items-center justify-center gap-1.5 rounded-xl bg-well ring-1 ring-gel/20 transition hover:ring-gel"
+              title={
+                isBlank ? `Color ${index + 1} (empty)` : `Color ${index + 1}`
+              }
             >
+              <span
+                className="h-10 w-10 rounded-full ring-1 ring-black/40"
+                style={{
+                  backgroundColor: isBlank ? BLANK_SLOT_COLOR : hex,
+                }}
+              />
+              <span className="font-ui text-[11px] font-medium uppercase tracking-[0.2em] text-mute">
+                {index + 1}
+              </span>
               <input
                 type="color"
                 value={isBlank ? "#ffffff" : hex}

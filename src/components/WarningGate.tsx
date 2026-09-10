@@ -14,23 +14,26 @@ export function WarningGate({ children }: { children: ReactNode }) {
   }, []);
 
   if (!ready) {
-    return <div className="fixed inset-0 bg-black" />;
+    return <div className="fixed inset-0 bg-void" />;
   }
 
   if (!accepted) {
     return (
       <MotionlessScreen>
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
-          <div className="max-w-lg rounded-2xl border border-zinc-700 bg-zinc-900 p-6 shadow-2xl">
-            <h2 className="text-3xl font-bold text-zinc-100">Warning</h2>
-            <p className="mt-3 text-base leading-relaxed text-zinc-400">
-              Before using, make sure you are not sensitive to flashing lights. Do
-              not use this application if you, or others around you, have{" "}
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-void p-5">
+          <div className="w-full max-w-lg">
+            <div className="strob-hazard h-3 w-full" aria-hidden />
+            <h2 className="mt-8 font-display text-6xl leading-none font-extrabold tracking-tight text-gel uppercase">
+              Warning
+            </h2>
+            <p className="mt-5 max-w-prose font-ui text-lg leading-relaxed font-medium text-ink">
+              Before using, make sure you are not sensitive to flashing lights.
+              Do not use this application if you, or others around you, have{" "}
               <a
                 href="https://en.wikipedia.org/wiki/Photosensitive_epilepsy"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline text-zinc-200"
+                className="text-gel underline decoration-gel/50 underline-offset-4 hover:decoration-gel"
               >
                 photosensitive epilepsy
               </a>
@@ -38,7 +41,7 @@ export function WarningGate({ children }: { children: ReactNode }) {
             </p>
             <button
               type="button"
-              className="mt-6 float-right rounded-xl bg-zinc-100 px-6 py-2 text-lg font-medium text-zinc-900 hover:bg-white"
+              className="mt-8 bg-gel px-8 py-3 font-display text-2xl font-extrabold tracking-[0.14em] text-void uppercase hover:bg-gel-hot"
               onClick={() => {
                 sessionStorage.setItem(STORAGE_KEY, "1");
                 setAccepted(true);
@@ -56,5 +59,5 @@ export function WarningGate({ children }: { children: ReactNode }) {
 }
 
 function MotionlessScreen({ children }: { children?: ReactNode }) {
-  return <div className="fixed inset-0 bg-black">{children}</div>;
+  return <div className="fixed inset-0 bg-void">{children}</div>;
 }

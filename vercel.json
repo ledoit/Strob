@@ -1,10 +1,1 @@
-{
-  "redirects": [
-    {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "strob.vercel.app" }],
-      "destination": "https://strob.menhir-holdings.com/:path*",
-      "permanent": true
-    }
-  ]
-}
+{}

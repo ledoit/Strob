@@ -41,20 +41,22 @@ export function SpotifySyncPanel({
 
   if (!configured) {
     return (
-      <p className="mt-4 text-xs text-zinc-500">
+      <p className="mt-5 font-ui text-[13px] text-mute">
         Spotify sync is not configured on this deployment.
       </p>
     );
   }
 
   return (
-    <div className="mt-4 rounded-xl border border-zinc-700/60 bg-zinc-950/80 p-3">
+    <div className="mt-5 border-t border-gel/20 pt-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="text-sm font-medium text-zinc-200">Spotify</p>
+        <p className="font-ui text-[13px] font-medium uppercase tracking-[0.28em] text-mute">
+          Spotify
+        </p>
         {!connected ? (
           <a
             href={loginHref}
-            className="rounded-lg bg-[#1db954] px-3 py-1.5 text-sm font-semibold text-black hover:bg-[#1ed760]"
+            className="bg-[#1db954] px-3 py-1.5 font-ui text-sm font-semibold text-black hover:bg-[#1ed760]"
           >
             Connect Spotify
           </a>
@@ -62,7 +64,7 @@ export function SpotifySyncPanel({
           <button
             type="button"
             onClick={onLogout}
-            className="rounded-lg border border-zinc-600 px-3 py-1.5 text-xs text-zinc-300 hover:bg-zinc-800"
+            className="border border-gel/30 px-3 py-1.5 font-ui text-[13px] uppercase tracking-[0.14em] text-mute hover:border-gel hover:text-gel"
           >
             Disconnect
           </button>
@@ -70,7 +72,7 @@ export function SpotifySyncPanel({
       </div>
 
       {connected && track && (
-        <p className="mt-2 truncate text-xs text-zinc-400">
+        <p className="mt-2 truncate font-ui text-sm text-ink">
           {track.name} — {track.artist}
           {track.bpm != null
             ? ` · ${track.bpm} BPM${track.bpmSource ? ` (${formatBpmSource(track.bpmSource)})` : ""}`
@@ -81,17 +83,19 @@ export function SpotifySyncPanel({
 
       {connected && (
         <>
-          <p className="mt-3 text-xs text-zinc-500">Beat multiplier</p>
+          <p className="mt-3 font-ui text-[13px] uppercase tracking-[0.22em] text-mute">
+            Beat multiplier
+          </p>
           <div className="mt-1 flex flex-wrap gap-1">
             {BPM_MULTIPLIERS.map(({ value, label }) => (
               <button
                 key={value}
                 type="button"
                 onClick={() => onBeatMultiplierChange(value)}
-                className={`rounded-md px-2.5 py-1 text-xs font-medium ${
+                className={`px-2.5 py-1 font-ui text-sm font-medium ${
                   beatMultiplier === value
-                    ? "bg-violet-600 text-white"
-                    : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+                    ? "bg-gel text-void"
+                    : "bg-well text-mute hover:text-ink"
                 }`}
               >
                 {label}
@@ -104,7 +108,7 @@ export function SpotifySyncPanel({
                 type="button"
                 onClick={onEnableSync}
                 disabled={!track?.bpm}
-                className="rounded-lg bg-violet-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-violet-500 disabled:opacity-40"
+                className="bg-gel px-3 py-1.5 font-ui text-sm font-semibold text-void hover:bg-gel-hot disabled:opacity-40"
               >
                 Sync CPS to beat
               </button>
@@ -112,21 +116,21 @@ export function SpotifySyncPanel({
               <button
                 type="button"
                 onClick={onDisableSync}
-                className="rounded-lg border border-zinc-600 px-3 py-1.5 text-sm text-zinc-200 hover:bg-zinc-800"
+                className="border border-gel/30 px-3 py-1.5 font-ui text-sm text-ink hover:border-gel"
               >
                 Manual CPS (stop sync)
               </button>
             )}
           </div>
           {syncEnabled && (
-            <p className="mt-2 text-xs text-emerald-400/90">
+            <p className="mt-2 font-ui text-[13px] text-gel">
               Syncing — move the slider anytime to override manually.
             </p>
           )}
         </>
       )}
 
-      {error && <p className="mt-2 text-xs text-amber-400">{error}</p>}
+      {error && <p className="mt-2 font-ui text-[13px] text-gel">{error}</p>}
     </div>
   );
 }

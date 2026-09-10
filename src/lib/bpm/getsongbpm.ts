@@ -139,7 +139,7 @@ async function apiGet<T>(path: string, params: Record<string, string>): Promise<
     headers: {
       Accept: "application/json",
       "X-API-KEY": apiKey,
-      "User-Agent": "Strob/1.0 (https://strob.vercel.app)",
+      "User-Agent": "Strob/1.0 (https://strob-menhir-holdings.vercel.app)",
     },
     cache: "no-store",
   });

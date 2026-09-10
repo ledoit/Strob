@@ -96,10 +96,15 @@ export default function ControllerPage() {
 
   if (!isValidSessionCode(code)) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-black text-zinc-300">
+      <main className="flex min-h-screen items-center justify-center bg-void text-ink">
         <div className="text-center">
-          <p>Invalid session code.</p>
-          <Link href="/" className="mt-4 inline-block text-violet-400 underline">
+          <p className="font-display text-3xl font-bold tracking-tight">
+            Invalid session code
+          </p>
+          <Link
+            href="/"
+            className="mt-4 inline-block font-ui text-sm uppercase tracking-[0.2em] text-gel underline decoration-gel/50 underline-offset-4"
+          >
             Home
           </Link>
         </div>
@@ -111,7 +116,7 @@ export default function ControllerPage() {
     <>
       <StrobeCanvas state={state} />
       {authError && (
-        <div className="fixed top-4 left-1/2 z-30 -translate-x-1/2 rounded-lg bg-red-900/90 px-4 py-2 text-sm text-red-100">
+        <div className="fixed top-4 left-1/2 z-30 -translate-x-1/2 bg-arm px-4 py-2 font-ui text-sm text-white">
           {authError}
         </div>
       )}
@@ -133,9 +138,9 @@ export default function ControllerPage() {
       />
       <Link
         href="/"
-        className="fixed top-4 left-4 z-30 rounded-lg bg-black/50 px-3 py-1.5 text-sm text-white/70 backdrop-blur hover:text-white"
+        className="fixed top-5 left-5 z-30 font-ui text-sm font-medium uppercase tracking-[0.22em] text-white/80 hover:text-white"
       >
-        Strob
+        ← Strob
       </Link>
     </>
   );
