@@ -20,40 +20,42 @@ export function ViewerChrome({
   const { visible } = useAutoHide(2500);
 
   return (
-    <>
+    <div
+      className={`pointer-events-none fixed inset-0 z-30 transition-opacity duration-300 ${
+        visible ? "opacity-100" : "opacity-0"
+      }`}
+    >
       <div
-        className={`pointer-events-none fixed inset-0 z-30 transition-opacity duration-300 ${
-          visible ? "opacity-100" : "opacity-0"
+        className={`fixed bottom-4 left-4 border border-white/15 bg-black/55 px-3 py-2 font-mono text-[#f2f1ee] backdrop-blur-sm ${
+          visible ? "pointer-events-auto" : "pointer-events-none"
         }`}
       >
-        <div
-          className={`fixed bottom-4 left-4 rounded-lg bg-black/40 px-3 py-2 text-sm text-white/80 backdrop-blur ${
-            visible ? "pointer-events-auto" : "pointer-events-none"
-          }`}
-        >
-          <div className="font-mono text-lg tracking-widest">{sessionCode}</div>
-          <div className="text-xs text-white/60">{viewerCount} connected</div>
-          <div className="text-xs text-white/60">
-            {state.playing ? `${state.cps} changes/sec` : "Paused"}
-          </div>
-        </div>
-        <p className="fixed bottom-4 right-4 text-xs text-white/40">
-          Press F11 for full screen
+        <p className="text-[10px] tracking-[0.22em] text-white/55 uppercase">
+          Output
         </p>
-        <Link
-          href="/"
-          className={`fixed top-4 left-4 rounded-lg bg-black/50 px-3 py-1.5 text-sm text-white/70 backdrop-blur hover:text-white ${
-            visible ? "pointer-events-auto" : "pointer-events-none"
-          }`}
-        >
-          Leave
-        </Link>
-        {!connected && (
-          <div className="pointer-events-auto fixed top-4 left-1/2 -translate-x-1/2 rounded-lg bg-zinc-900/90 px-4 py-2 text-sm text-zinc-200">
-            Connecting to session…
-          </div>
-        )}
+        <p className="text-lg tracking-[0.28em]">{sessionCode}</p>
+        <p className="text-[11px] tracking-wide text-white/60">
+          {viewerCount} out
+          {" · "}
+          {state.playing ? `${state.cps.toFixed(2)} /s` : "STBY"}
+        </p>
       </div>
-    </>
+      <p className="fixed right-4 bottom-4 font-mono text-[10px] tracking-wider text-white/35 uppercase">
+        F11 full screen
+      </p>
+      <Link
+        href="/"
+        className={`fixed top-4 left-4 border border-white/15 bg-black/55 px-3 py-1.5 font-mono text-[11px] tracking-wide text-white/70 backdrop-blur-sm hover:text-white ${
+          visible ? "pointer-events-auto" : "pointer-events-none"
+        }`}
+      >
+        Leave wall
+      </Link>
+      {!connected && (
+        <div className="pointer-events-auto fixed top-4 left-1/2 -translate-x-1/2 border border-white/15 bg-black/80 px-4 py-2 font-mono text-[11px] tracking-wide text-[#f2f1ee]">
+          Patching…
+        </div>
+      )}
+    </div>
   );
 }

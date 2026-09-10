@@ -48,9 +48,9 @@ export function BpmSearchPanel({
 
   if (!configured) {
     return (
-      <div className="mt-4 rounded-xl border border-zinc-700/60 bg-zinc-950/80 p-3">
-        <p className="text-sm font-medium text-zinc-200">BPM search · v3</p>
-        <p className="mt-2 text-xs text-amber-400/90">
+      <div className="mt-4 border border-[#2c2c2e] bg-[#141416] p-3">
+        <p className="rack-label">Tempo</p>
+        <p className="mt-2 font-mono text-[11px] text-[#c4c4bc]">
           Add GETSONGBPM_API_KEY on the server (free at getsongbpm.com/api).
         </p>
       </div>
@@ -58,11 +58,10 @@ export function BpmSearchPanel({
   }
 
   return (
-    <div className="mt-4 rounded-xl border border-zinc-700/60 bg-zinc-950/80 p-3">
-      <p className="text-sm font-medium text-zinc-200">BPM search · v3</p>
-      <p className="mt-1 text-xs text-zinc-500">
-        Lookup tempo by song name — also used automatically when Spotify has no
-        BPM.
+    <div className="mt-4 border border-[#2c2c2e] bg-[#141416] p-3">
+      <p className="rack-label">Tempo</p>
+      <p className="mt-1 text-xs text-[#9a9a94]">
+        Lookup BPM by song — also used when Spotify has no tempo.
       </p>
       <div className="mt-2 flex gap-2">
         <input
@@ -71,20 +70,22 @@ export function BpmSearchPanel({
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && search()}
           placeholder="e.g. Closer Chainsmokers"
-          className="min-w-0 flex-1 rounded-lg border border-zinc-600 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-violet-500"
+          className="min-w-0 flex-1 border border-[#2c2c2e] bg-[#0b0b0c] px-3 py-2 text-sm text-[#f2f1ee] outline-none placeholder:text-[#5a5a56] focus:border-[#d8d5cc]"
         />
         <button
           type="button"
           onClick={search}
           disabled={loading || !query.trim()}
-          className="rounded-lg bg-zinc-700 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-600 disabled:opacity-40"
+          className="border border-[#2c2c2e] px-3 py-2 font-mono text-[11px] tracking-wide text-[#f2f1ee] hover:border-[#d8d5cc] disabled:opacity-40"
         >
           {loading ? "…" : "Search"}
         </button>
       </div>
-      {error && <p className="mt-2 text-xs text-amber-400/90">{error}</p>}
+      {error && (
+        <p className="mt-2 font-mono text-[11px] text-[#f2f1ee]">{error}</p>
+      )}
       {results.length > 0 && (
-        <ul className="mt-2 max-h-36 space-y-1 overflow-y-auto">
+        <ul className="mt-2 max-h-36 space-y-px overflow-y-auto">
           {results.map((r) => (
             <li key={r.id}>
               <button
@@ -94,31 +95,31 @@ export function BpmSearchPanel({
                   r.bpm != null &&
                   onApplyBpm(r.bpm, { title: r.title, artist: r.artist })
                 }
-                className="flex w-full items-center justify-between gap-2 rounded-lg px-2 py-1.5 text-left text-sm hover:bg-zinc-800 disabled:opacity-40"
+                className="flex w-full items-center justify-between gap-2 px-2 py-1.5 text-left text-sm hover:bg-[#1c1c1e] disabled:opacity-40"
               >
-                <span className="truncate text-zinc-200">
+                <span className="truncate text-[#f2f1ee]">
                   {r.title}
-                  <span className="text-zinc-500"> — {r.artist}</span>
+                  <span className="text-[#9a9a94]"> — {r.artist}</span>
                 </span>
-                <span className="shrink-0 text-zinc-400">
-                  {r.bpm != null ? `${r.bpm} BPM` : "—"}
+                <span className="shrink-0 font-mono text-[11px] text-[#9a9a94]">
+                  {r.bpm != null ? `${r.bpm}` : "—"}
                 </span>
               </button>
             </li>
           ))}
         </ul>
       )}
-      <p className="mt-2 text-[10px] text-zinc-600">
+      <p className="mt-2 text-[10px] text-[#6a6a64]">
         BPM data via{" "}
         <a
           href="https://getsongbpm.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="underline hover:text-zinc-400"
+          className="underline decoration-[#3a3a3c] underline-offset-2 hover:text-[#9a9a94]"
         >
           GetSongBPM
         </a>
-        . Applies CPS using your {beatMultiplier}× beat multiplier.
+        . Applies rate at {beatMultiplier}× beat.
       </p>
     </div>
   );

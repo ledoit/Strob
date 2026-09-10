@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Strob — Live mood light sessions",
+  title: "Strob — Party engineering",
   description:
-    "Controller and viewer synced color strobe lights, inspired by moodlight.org",
+    "Live-synced program output. One board, many walls — palette, rate, and a 4-character show code.",
 };
 
 export const viewport: Viewport = {
